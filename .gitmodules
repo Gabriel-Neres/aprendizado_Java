@@ -1,0 +1,3 @@
+[submodule "aula2"]
+	path = aula2
+	url = https://github.com/Gabriel-Neres/aprendizado_java.git

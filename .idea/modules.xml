@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/aprendizado_Java.iml" filepath="$PROJECT_DIR$/.idea/aprendizado_Java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/estruturaControle/estruturaControle.iml" filepath="$PROJECT_DIR$/estruturaControle/estruturaControle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/orientacaoObjeto/exercicio1/exercicio1.iml" filepath="$PROJECT_DIR$/orientacaoObjeto/exercicio1/exercicio1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/orientacaoObjeto/orientacaoObjeto1/orientacaoObjeto1.iml" filepath="$PROJECT_DIR$/orientacaoObjeto/orientacaoObjeto1/orientacaoObjeto1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/orientacaoObjeto/orientacaoObjeto2/orientacaoObjeto2.iml" filepath="$PROJECT_DIR$/orientacaoObjeto/orientacaoObjeto2/orientacaoObjeto2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/variaveis/variaveis.iml" filepath="$PROJECT_DIR$/variaveis/variaveis.iml" />
+    </modules>
+  </component>
+</project>

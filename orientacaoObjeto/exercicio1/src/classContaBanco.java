@@ -1,3 +1,6 @@
+import java.lang.reflect.Method;
+import java.time.OffsetDateTime;
+
 public class classContaBanco {
 
     private float valorRealConta;
@@ -9,6 +12,9 @@ public class classContaBanco {
     public String nomeUsuario;
 
     private int senhaUsuario;
+
+    private int valorMesPassado = OffsetDateTime.now().getMonthValue();
+    //public classContaBanco(){};
 
     public void cadastroConta(String userName, int userPassword, float depositUser){
         this.nomeUsuario = userName;
@@ -35,8 +41,9 @@ public class classContaBanco {
         this.valorRealConta -= sakeUser;
 }
     //sacar chequeEspecial
-    public void saqueChequeEspecial(float sakeUser){
+    public String saqueChequeEspecial(float sakeUser){
         this.valorChequeEspecial -= sakeUser;
+        return null;
     }
 
     //Depositar dinheiro;
@@ -48,4 +55,15 @@ public class classContaBanco {
     }
     //Pagar um boleto.
 
+    //juros cheque especial
+    public void jurosChequeEspecial(float valorUsado){
+
+        if(this.valorMesPassado < OffsetDateTime.now().getMonthValue())return;
+
+            var dinheiro = (float) (valorUsado * 0.2);
+            classContaBanco.this.saqueChequeEspecial(dinheiro);
+
+            this.valorMesPassado = OffsetDateTime.now().getMonthValue();
+
+    }
 }

@@ -1,3 +1,4 @@
+import java.time.OffsetDateTime;
 import java.util.Scanner;
 
 
@@ -21,16 +22,17 @@ public class Main {
             System.out.println("Deseja criar sua conta?");
             System.out.println("1 - Sim");
             System.out.println("2 - Não");
+            System.out.print(">>");
             opcao = input.nextInt();
 
             if(opcao == 1){
-                System.out.println("Digite o seu nome:\n");
+                System.out.println("Digite o seu nome:");
                 System.out.print(">>");
                 userName = input.nextLine();userName = input.nextLine();
-                System.out.println("Digite sua nova senha:\n");
+                System.out.println("Digite sua nova senha:");
                 System.out.print(">>");
                 userPass = input.nextInt();
-                System.out.println("Para abrir a conta você precisa depositar um valor. Digite o valor que você irá depositar:\n");
+                System.out.println("Para abrir a conta você precisa depositar um valor. Digite o valor que você irá depositar:");
                 System.out.print(">>");
                 final float dinheiroAbrirConta = input.nextFloat();
 
@@ -40,17 +42,17 @@ public class Main {
                 minhaConta.cadastroConta(userName,userPass,dinheiroAbrirConta);
                 minhaConta.atualizarSaqueEspecial();
 
-                System.out.println("Sua conta foi criada com sucesso!");
+                System.out.println("Sua conta foi criada com sucesso!\n");
 
                 do {
-                    System.out.printf("Olá, %s! Tudo bem?\n\nOpções:\n" +
+                    System.out.printf("\nOlá, %s! Tudo bem?\n\nOpções:\n" +
                             "1 - Consultar saldo\n" +
                             "2 - Consultar cheque especial\n" +
                             "3 - Depositar dinheiro\n" +
                             "4 - Sacar dinheiro\n" +
                             "5 - Pagar um boleto\n"+
                             "6 - Fechar", minhaConta.nomeUsuario);
-
+                    System.out.print("\n>>");
                     opcao = input.nextInt();
 
                     if(opcao == 1){System.out.printf("Saldo conta corrente: R$ %.2f",minhaConta.consultarSaldo());}
@@ -95,13 +97,19 @@ public class Main {
                             System.out.printf("Saldo insuficiente.\n");
                         }else if(minhaConta.consultarSaldo() - dinheiro < 0 && (minhaConta.consultarChequeEspecial() + minhaConta.consultarSaldo()) - dinheiro > 0){
                             if(minhaConta.consultarSaldo() - dinheiro < 0){
-                                System.out.println("O valor excede o saldo em conta. Deseja usar o cheque especial?\n 1 - Sim\n2 - Não\n>>");
+                                System.out.println("O valor excede o saldo em conta. Deseja usar o cheque especial?\n1 - Sim\n2 - Não\n>>");
                                 opcao = input.nextInt();
                                 if(opcao == 1){
-                                    dinheiro -= minhaConta.consultarSaldo();
-                                    minhaConta.saqueConta(minhaConta.consultarSaldo());
-                                    minhaConta.saqueChequeEspecial(dinheiro);
-                                    System.out.printf("Saque realizado com sucesso!\nSaldo conta: R$ %.2f.\nSaldo cheque especial:R$ %.2f.\n",minhaConta.consultarSaldo(),minhaConta.consultarChequeEspecial());
+                                    if(minhaConta.consultarSaldo() == 0){
+                                        minhaConta.saqueChequeEspecial(dinheiro);
+                                        System.out.printf("Saque realizado com sucesso!\nSaldo conta: R$ %.2f.\nSaldo cheque especial:R$ %.2f.\n",minhaConta.consultarSaldo(),minhaConta.consultarChequeEspecial());
+                                    }else if(minhaConta.consultarSaldo() > 0){
+                                        dinheiro -= minhaConta.consultarSaldo();
+                                        minhaConta.saqueConta(minhaConta.consultarSaldo());
+                                        minhaConta.saqueChequeEspecial(dinheiro);
+                                        System.out.printf("Saque realizado com sucesso!\nSaldo conta: R$ %.2f.\nSaldo cheque especial:R$ %.2f.\n",minhaConta.consultarSaldo(),minhaConta.consultarChequeEspecial());
+                                    }
+
                                 }else if (opcao == 2 ){
                                     System.out.printf("Voltando para o início.");
                                 }
@@ -119,7 +127,7 @@ public class Main {
 
                         if(minhaConta.consultarSaldo() - dinheiro > 0){
                             minhaConta.saqueConta(dinheiro);
-                            System.out.printf("Boleto cod: %s pago com sucesso!\nSaldo atual: R$ %.2f.\n",codBoleto,minhaConta.consultarSaldo());
+                            System.out.printf("Boleto cod: %s pago com sucesso!\nSaldo conta atual: R$ %.2f.\n",codBoleto,minhaConta.consultarSaldo());
                         }else if(minhaConta.consultarSaldo() - dinheiro < 0 && (minhaConta.consultarChequeEspecial() + minhaConta.consultarSaldo()) - dinheiro < 0){
                             System.out.printf("Saldo insuficiente.\n");
                         }else if(minhaConta.consultarSaldo() - dinheiro < 0 && (minhaConta.consultarChequeEspecial() + minhaConta.consultarSaldo()) - dinheiro > 0){
@@ -140,20 +148,14 @@ public class Main {
                     }
 
                     //juros caso estiver usando o cheque especial
-                    if(dinheiroAbrirConta > 500 && minhaConta.consultarChequeEspecial() < dinheiroAbrirConta/2){
+                    if(dinheiroAbrirConta > 500 && minhaConta.consultarChequeEspecial() < dinheiroAbrirConta/2 && minhaConta.valorMesPassado< OffsetDateTime.now().getMonthValue()){
                         valorComparacao = dinheiroAbrirConta/2 - minhaConta.consultarChequeEspecial();
                         minhaConta.jurosChequeEspecial(valorComparacao);
-                    }else{
+                    }else if(dinheiroAbrirConta <= 500 && minhaConta.consultarChequeEspecial() < 50 && minhaConta.valorMesPassado< OffsetDateTime.now().getMonthValue()){
                         valorComparacao = 50 - minhaConta.consultarChequeEspecial();
-                        dinheiro = (float) (valorComparacao * 0.2);
                         minhaConta.jurosChequeEspecial(valorComparacao);
                     }
                 }while(controlador);
-
-
-
-
-
 
             }else if(opcao == 2){
                 controlador = false;

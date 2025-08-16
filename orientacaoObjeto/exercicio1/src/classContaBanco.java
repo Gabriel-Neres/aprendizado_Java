@@ -13,7 +13,7 @@ public class classContaBanco {
 
     private int senhaUsuario;
 
-    private int valorMesPassado = OffsetDateTime.now().getMonthValue();
+    public int valorMesPassado = OffsetDateTime.now().getMonthValue();
     //public classContaBanco(){};
 
     public void cadastroConta(String userName, int userPassword, float depositUser){
@@ -41,9 +41,8 @@ public class classContaBanco {
         this.valorRealConta -= sakeUser;
 }
     //sacar chequeEspecial
-    public String saqueChequeEspecial(float sakeUser){
+    public void saqueChequeEspecial(float sakeUser){
         this.valorChequeEspecial -= sakeUser;
-        return null;
     }
 
     //Depositar dinheiro;
@@ -57,13 +56,8 @@ public class classContaBanco {
 
     //juros cheque especial
     public void jurosChequeEspecial(float valorUsado){
-
-        if(this.valorMesPassado < OffsetDateTime.now().getMonthValue())return;
-
             var dinheiro = (float) (valorUsado * 0.2);
             classContaBanco.this.saqueChequeEspecial(dinheiro);
-
             this.valorMesPassado = OffsetDateTime.now().getMonthValue();
-
     }
 }
